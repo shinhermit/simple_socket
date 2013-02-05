@@ -24,7 +24,7 @@ serveur:
 client:
 	$(cmd_exe)
 
-example:
+example: client serveur
 	$(cmd_exe)
 
 clean:

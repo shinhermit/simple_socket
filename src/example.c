@@ -12,9 +12,9 @@ int main()
       exit(-1);
 
     case 0:
-      execlp("./serveur.out", "serveur.out", NULL);
+      execl("./serveur.out", "serveur.out", NULL);
 
-      perror("execlp(): ");
+      perror("execl(): ");
       exit(-1);
 
     default:
@@ -27,9 +27,9 @@ int main()
 
 	case 0:
 	  sleep(1);
-	  execlp("./client.out", "client.out", NULL);
+	  execl("./client.out", "client.out", NULL);
 
-	  perror("execlp(): ");
+	  perror("execl(): ");
 	  exit(-1);
 
 	default:
