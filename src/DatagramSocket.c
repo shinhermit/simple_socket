@@ -1,16 +1,12 @@
 #include "DatagramSocket.h"
 
-struct DatagramSocket * __New_DatagramSocket__(const char* ip)
+struct DatagramSocket * __New_DatagramSocket__()
 {
   struct DatagramSocket * _this = (struct DatagramSocket *) malloc( sizeof(struct DatagramSocket) );
 
   if(_this == NULL) return NULL; //echec malloc
 
   _this->_descriptor = socket(AF_INET, SOCK_DGRAM, DEFAULT_PROTOCOL);
-
-  if( SocketUtility.create_sockaddr(&_this->_sockaddr, ip, ANY_PORT) == -1 ) return NULL;
-
-  _this->_sockaddr_len = sizeof(_this->_sockaddr); //erreur ??
 
   if(_this->_descriptor == -1)
     {
@@ -19,7 +15,13 @@ struct DatagramSocket * __New_DatagramSocket__(const char* ip)
 
       return NULL;
     }
-  
+
+  else if( SocketUtility.create_sockaddr(&_this->_myaddr, NULL, ANY_PORT) == -1 )
+    {
+      close(_this->_descriptor);
+      return NULL;
+    }
+
   else
     {
       _this->bind = sock_bind;
@@ -33,12 +35,9 @@ struct DatagramSocket * __New_DatagramSocket__(const char* ip)
 
 int sock_bind(struct DatagramSocket * _this, port_t port)
 {
-  if(port != ANY_PORT)
-    {
-      _this->_sockaddr.sin_port = port; //attention, _sockaddr n'est pas de type sockaddr_in
-    }
+  _this->_myaddr.sin_port = port;
 
-  return bind(_this->_descriptor, (struct sockaddr*)(&_this->_sockaddr), _this->_sockaddr_len);
+  return bind(_this->_descriptor, (struct sockaddr*)(&_this->_myaddr), sizeof(struct sockaddr_in));
 }
 
 int sock_send(struct DatagramSocket * _this, struct DatagramPacket * packet)

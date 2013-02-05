@@ -6,9 +6,9 @@ struct DatagramPacket * __New_DatagramPacket__(const char * dest_ip, port_t dest
 
   if(packet == NULL) return NULL;
 
-  if( SocketUtility.create_sockaddr(&packet->_dest_addr, dest_ip, dest_port) == -1 ) return NULL;
+  if( SocketUtility.create_sockaddr(&packet->_dest_addr, dest_ip, dest_port) == -1) return NULL;
 
-  packet->_dest_addr_len = sizeof(packet->_dest_addr); //erreur ??
+  packet->_dest_addr_len = sizeof(struct sockaddr_in);
 
   packet->_data = data;
 
@@ -20,6 +20,7 @@ struct DatagramPacket * __New_DatagramPacket__(const char * dest_ip, port_t dest
   packet->destAddrLength = dgrm_destAddrLength;
   packet->setMessage = dgrm_setMessage;
   packet->setDestination = dgrm_setDestination;
+  packet->reset = dgrm_reset;
   packet->delete = dgrm_delete;
 
   return packet;
@@ -31,7 +32,9 @@ struct DatagramPacket * __New_Input_DatagramPacket__(char * data, int expected_l
 
   if(packet == NULL) return NULL;
 
-  memset( packet, 0, sizeof(struct DatagramPacket) );
+  if( SocketUtility.create_sockaddr(&packet->_dest_addr, NULL, ANY_PORT) == -1) return NULL;
+
+  packet->_dest_addr_len = sizeof(struct sockaddr_in);
 
   packet->_data = data;
 
@@ -43,6 +46,7 @@ struct DatagramPacket * __New_Input_DatagramPacket__(char * data, int expected_l
   packet->destAddrLength = dgrm_destAddrLength;
   packet->setMessage = dgrm_setMessage;
   packet->setDestination = dgrm_setDestination;
+  packet->reset = dgrm_reset;
   packet->delete = dgrm_delete;
 
   return packet;
@@ -76,6 +80,13 @@ void dgrm_setMessage(struct DatagramPacket * _this, char * data, int length)
 
 int dgrm_setDestination(struct DatagramPacket * _this, const char * dest_ip, port_t dest_port)
 {
+  return SocketUtility.create_sockaddr(&_this->_dest_addr, dest_ip, dest_port);
+}
+
+int dgrm_reset(struct DatagramPacket * _this, const char * dest_ip, port_t dest_port, char * data, int data_len)
+{
+  _this->_data = data;
+  _this->_data_len = data_len;
 
   return SocketUtility.create_sockaddr(&_this->_dest_addr, dest_ip, dest_port);
 }

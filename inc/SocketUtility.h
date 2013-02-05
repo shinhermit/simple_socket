@@ -8,6 +8,10 @@
 #include <arpa/inet.h>
 #include <string.h> //memset
 
+#define DEFAULT_PROTOCOL 0
+#define ANY_PORT 0
+#define NO_OPTION 0
+
 typedef u_short port_t;
 
 struct static_SocketUtility

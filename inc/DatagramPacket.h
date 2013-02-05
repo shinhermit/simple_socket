@@ -24,6 +24,8 @@ struct DatagramPacket
 
   int (*setDestination)(struct DatagramPacket * _this, const char * dest_ip, port_t dest_port);
 
+  int (*reset)(struct DatagramPacket * _this, const char * dest_ip, port_t dest_port, char * data, int data_len);
+
   void (*delete)(struct DatagramPacket * _this);
 };
 
@@ -42,6 +44,8 @@ int dgrm_destAddrLength(struct DatagramPacket * _this);
 void dgrm_setMessage(struct DatagramPacket * _this, char * buf, int length);
 
 int dgrm_setDestination(struct DatagramPacket * _this, const char * dest_ip, port_t dest_port);
+
+int dgrm_reset(struct DatagramPacket * _this, const char * dest_ip, port_t dest_port, char * data, int data_len);
 
 void dgrm_delete(struct DatagramPacket * _this);
 

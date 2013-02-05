@@ -12,7 +12,7 @@ int main()
 
   struct DatagramPacket * packet = __New_Input_DatagramPacket__(recv_data, expected_len);
 
-  struct DatagramSocket * socket = __New_DatagramSocket__("127.0.0.1");
+  struct DatagramSocket * socket = __New_DatagramSocket__();
 
   if(packet && socket)
     {
