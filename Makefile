@@ -15,16 +15,37 @@ DatagramPacket:
 DatagramSocket:
 	$(cmd)
 
+StreamSocket:
+	$(cmd)
+
+ServerSocket:
+	$(cmd)
+
+all_datagram: SocketUtility DatagramPacket DatagramSocket
+
+all_stream: SocketUtility StreamSocket ServerSocket
+
+all_classes:  SocketUtility DatagramPacket DatagramSocket StreamSocket ServerSocket
+
 Test:
 	$(cmd_exe)
 
-serveur:
+serveur: all_datagram
 	$(cmd_exe)
 
-client:
+client: all_datagram
 	$(cmd_exe)
 
 example: client serveur
+	$(cmd_exe)
+
+tcp_client: all_stream
+	$(cmd_exe)
+
+tcp_server: all_stream
+	$(cmd_exe)
+
+tpc_example: tcp_client tcp_server
 	$(cmd_exe)
 
 clean:
