@@ -39,9 +39,9 @@ int main(int argc, char** argv)
 
       data[received] = '\0';
 
-      if( !strcmp(data, "fin\n") )
+      if( !strcmp(data, "fin.\n") )
 	{
-	  strcpy(data, "fin\n");
+	  strcpy(data, "fin.\n");
 	  socket.write(&socket, data, strlen(data));
 	  quit = TRUE;
 	}
