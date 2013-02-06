@@ -1,26 +1,13 @@
 #include "DatagramSocket.h"
 
-struct DatagramSocket * __New_DatagramSocket__()
+int __DatagramSocket__(struct DatagramSocket * _this)
 {
-  struct DatagramSocket * _this = (struct DatagramSocket *) malloc( sizeof(struct DatagramSocket) );
-
-  if(_this == NULL) return NULL; //echec malloc
 
   _this->_descriptor = socket(AF_INET, SOCK_DGRAM, DEFAULT_PROTOCOL);
 
-  if(_this->_descriptor == -1)
-    {
-      free(_this);
-      _this = NULL;
+  if(_this->_descriptor == -1) return -1;
 
-      return NULL;
-    }
-
-  else if( SocketUtility.create_sockaddr(&_this->_myaddr, NULL, ANY_PORT) == -1 )
-    {
-      close(_this->_descriptor);
-      return NULL;
-    }
+  else if( SocketUtility.create_sockaddr(&_this->_myaddr, NULL, ANY_PORT) == -1 ) return -1;
 
   else
     {
@@ -29,7 +16,7 @@ struct DatagramSocket * __New_DatagramSocket__()
       _this->receive = sock_receive;
       _this->close = sock_close;
 
-      return _this;
+      return 0;
     }
 }
 
@@ -62,14 +49,5 @@ int sock_receive(struct DatagramSocket * _this, struct DatagramPacket * packet)
 
 int sock_close(struct DatagramSocket * _this)
 {
-  int ret = close(_this->_descriptor);
-
-  if(ret != -1 )
-    {
-      free(_this);
-
-      _this = NULL;
-    }
-
-  return ret;
+  return close(_this->_descriptor);
 }

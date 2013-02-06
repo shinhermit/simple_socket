@@ -30,13 +30,13 @@ all_classes:  SocketUtility DatagramPacket DatagramSocket StreamSocket ServerSoc
 Test:
 	$(cmd_exe)
 
-serveur: all_datagram
+dgrm_server: all_datagram
 	$(cmd_exe)
 
-client: all_datagram
+dgrm_client: all_datagram
 	$(cmd_exe)
 
-example: client serveur
+dgrm_example: dgrm_client dgrm_server
 	$(cmd_exe)
 
 tcp_client: all_stream
@@ -45,7 +45,7 @@ tcp_client: all_stream
 tcp_server: all_stream
 	$(cmd_exe)
 
-tpc_example: tcp_client tcp_server
+tcp_example: tcp_client tcp_server
 	$(cmd_exe)
 
 clean:

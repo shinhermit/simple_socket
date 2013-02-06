@@ -12,7 +12,7 @@ int main()
       exit(-1);
 
     case 0:
-      execl("./serveur.out", "serveur.out", NULL);
+      execl("./tcp_server.out", "tcp_server.out", NULL);
 
       perror("execl(): ");
       exit(-1);
@@ -27,7 +27,7 @@ int main()
 
 	case 0:
 	  sleep(1);
-	  execl("./client.out", "client.out", NULL);
+	  execl("./tcp_client.out", "tcp_client.out", NULL);
 
 	  perror("execl(): ");
 	  exit(-1);

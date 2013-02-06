@@ -21,7 +21,7 @@ struct DatagramSocket
   int (*close)(struct DatagramSocket * _this);
 };
 
-struct DatagramSocket * __New_DatagramSocket__();
+int __DatagramSocket__(struct DatagramSocket * _this);
 
 int sock_bind(struct DatagramSocket * _this, port_t port);
 
