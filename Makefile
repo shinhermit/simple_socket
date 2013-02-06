@@ -48,6 +48,12 @@ tcp_server: all_stream
 tcp_example: tcp_client tcp_server
 	$(cmd_exe)
 
+ChatServer: all_stream
+	$(cmd_exe)
+
+ChatClient: all_stream
+	$(cmd_exe)
+
 clean:
 	rm -f *~ *# *.out
 	rm -f $(inc)/*~ $(inc)/*# $(inc)/*.out

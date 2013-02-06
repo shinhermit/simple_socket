@@ -12,7 +12,11 @@
 #define ANY_PORT 0
 #define NO_OPTION 0
 
+#define MAXLEN 200
+
 typedef u_short port_t;
+
+typedef enum{FALSE, TRUE} Bool;
 
 struct static_SocketUtility
 {
