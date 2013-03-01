@@ -25,7 +25,7 @@ int __DatagramPacket__(struct DatagramPacket * _this, const char * dest_ip, port
 int __Input_DatagramPacket__(struct DatagramPacket * _this, char * data, int expected_len)
 {
 
-  if( SocketUtility.create_sockaddr(&_this->_dest_addr, NULL, ANY_PORT) == -1) return -1;
+  if( SocketUtility.create_sockaddr(&_this->_dest_addr, NULL, PORT_ANY) == -1) return -1;
 
   _this->_dest_addr_len = sizeof(struct sockaddr_in);
 

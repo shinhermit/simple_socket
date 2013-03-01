@@ -22,4 +22,25 @@ int utility_create_sockaddr(struct sockaddr_in * addr, const char * ip, port_t p
   return 0;
 }
 
-struct static_SocketUtility SocketUtility = {utility_create_sockaddr};
+int utility_getsockaddr(struct sockaddr_in * addr, const char * node, port_t port)
+{
+  struct addrinfo hints = {NO_FLAG, AF_INET, SOCK_TYPE_ANY, DEFAULT_PROTOCOL, 0, NULL, NULL, NULL};
+  struct addrinfo * res;
+
+  if( getaddrinfo(node, NULL, &hints, &res) == -1 ) return -1;
+
+  if(res == NULL) return -1;
+
+  else
+    {
+      memcpy(addr, res->ai_addr, res->ai_addrlen);
+
+      addr->sin_port = port;
+
+      freeaddrinfo(res);
+
+      return 0;
+    }
+}
+
+struct static_SocketUtility SocketUtility = {utility_create_sockaddr, utility_getsockaddr};

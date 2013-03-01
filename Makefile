@@ -1,6 +1,7 @@
 inc = inc
 src = src
 obj = obj
+rpc=computing_server
 cc = gcc
 flags = -Wall -Wextra -g
 cmd_exe = $(cc) $(flags) -I$(inc) $(src)/$@.c $(obj)/* -o $@.out
@@ -25,8 +26,22 @@ all_datagram: SocketUtility DatagramPacket DatagramSocket
 
 all_stream: SocketUtility StreamSocket ServerSocket
 
-all_classes:  SocketUtility DatagramPacket DatagramSocket StreamSocket ServerSocket
+all_sock_classes:  SocketUtility DatagramPacket DatagramSocket StreamSocket ServerSocket
 
+### computing_server
+
+calculus:
+	cd $(rpc); make $@
+
+CalculusClient:
+	cd $(rpc); make $@
+
+CalculusServer: calculus
+	cd $(rpc); make $@
+
+all_calculus: CalculusClient CalculusServer
+
+### execs
 Test:
 	$(cmd_exe)
 
@@ -54,7 +69,15 @@ ChatServer: all_stream
 ChatClient: all_stream
 	$(cmd_exe)
 
+rpc_server: all_stream CalculusServer
+	cd $(rpc); make $@
+
+rpc_client: all_stream CalculusClient
+	cd $(rpc); make $@
+
 clean:
 	rm -f *~ *# *.out
 	rm -f $(inc)/*~ $(inc)/*# $(inc)/*.out
 	rm -f $(src)/*~ $(src)/*# $(src)/*.out
+	rm -f $(obj)/*
+	cd ./computing_server; make clean

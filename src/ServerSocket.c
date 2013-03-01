@@ -6,9 +6,9 @@ int __ServerSocket__(struct ServerSocket * _this)
 
   if(_this->_descriptor == -1) return -1;
 
-  else if( SocketUtility.create_sockaddr(&_this->_myaddr, NULL, ANY_PORT) == -1 ) return -1;
+  else if( SocketUtility.create_sockaddr(&_this->_myaddr, NULL, PORT_ANY) == -1 ) return -1;
 
-  else if( SocketUtility.create_sockaddr(&_this->_client_addr, NULL, ANY_PORT) == -1 ) return -1;
+  else if( SocketUtility.create_sockaddr(&_this->_client_addr, NULL, PORT_ANY) == -1 ) return -1;
 
   else
     {
