@@ -43,7 +43,7 @@ all_calculus: CalculusClient CalculusServer
 
 ### execs
 Test:
-	$(cmd_exe)
+	 $(cc) $(flags) -I$(inc) $(src)/$@.c -o $@.out
 
 dgrm_server: all_datagram
 	$(cmd_exe)

@@ -5,25 +5,24 @@
 
 int main(int argc, char** argv)
 {
-  char * ip = "127.0.0.1";
-  port_t port = 4000;
+  char[100] host;
+  port_t port;
+  char data[MAXLEN];
+
   int max_len = MAXLEN*sizeof(char);
   int received;
-  char data[MAXLEN];
   Bool quit;
 
-  if(argc > 3)
-    {
-      ip = argv[1];
-      port = atoi(argv[2]);
-    }
+  port = 1983;
+  strcpy(host,"127.0.0.1");
+  SocketUtility.ClientCommandLine(argc, argv, host, 100, &port, data, MAXLEN);
 
   struct StreamSocket socket;
 
   if( __StreamSocket__(&socket) == -1 )
     exit(-1);
 
-  if( socket.connect(&socket, ip, port) == -1) exit(-1);
+  if( socket.connect(&socket, host, port) == -1) exit(-1);
   printf("Client: connected\n");
 
   quit = FALSE;
@@ -37,7 +36,7 @@ int main(int argc, char** argv)
 
       received = socket.read(&socket, data, max_len-1);
 
-      data[received] = '\0';
+      SocketUtility.ntocs(data, data, received);
 
       if( !strcmp(data, "fin.\n") )
 	{

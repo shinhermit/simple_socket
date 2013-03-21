@@ -4,24 +4,23 @@
 
 int main(int argc, char** argv)
 {
-  char * ip = "127.0.0.1";
-  port_t port = 4000;
-  char * data = "Bonjour";
+  port_t port;
+  char host[100];
+  char data[MAXLEN];
 
-  if(argc > 3)
-    {
-      ip = argv[1];
-      port = atoi(argv[2]);
-    }
+  port = 1983;
+  strcpy(host,"127.0.0.1");
+  strcpy(data,"bonjour");
+  SocketUtility.ClientCommandLine(argc, argv, host, 100, &port, data, MAXLEN);
 
   struct StreamSocket socket;
 
   if( __StreamSocket__(&socket) == -1 )
     exit(-1);
 
-  socket.connect(&socket, ip, port);
+  socket.connect(&socket, host, port);
 
-  socket.write(&socket, data, strlen(data)+1 );
+  socket.write( &socket, data, strlen(data) );
 
   socket.close(&socket);
 

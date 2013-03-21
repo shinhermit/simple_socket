@@ -10,18 +10,15 @@ int main(int argc, char ** argv)
   struct ServerSocket listener;
   struct StreamSocket socket;
 
-  port_t port = 4000;
-  int max_pending = 5;
-  int max_len = MAXLEN*sizeof(char);
+  port_t port;
+  int max_pending;
   int received;
   char data[MAXLEN];
   Bool quit;
 
-  if(argc > 3)
-    {
-      port = atoi(argv[1]);
-      max_pending = atoi(argv[2]);
-    }
+  port = 1983;
+  max_pending = 5;
+  SocketUtility.ServerCommandLine(argc, argv, &port, &maxpending);
 
   if( __ServerSocket__(&listener) == -1 )
     exit(-1);
@@ -42,13 +39,14 @@ int main(int argc, char ** argv)
 
       while(!quit)
 	{
-	  received = socket.read(&socket, data, max_len-1);
+	  received = socket.read(&socket, data, MAXLEN-1);
 
-	  data[received] = '\0';
+	  SocketUtility.ntocs(data, data, received);
 
 	  if( !strcmp(data, "fin.\n") )
 	    {
 	      strcpy(data, "fin.\n");
+
 	      socket.write(&socket, data, strlen(data));
 	      quit = TRUE;
 	    }

@@ -8,16 +8,14 @@ int main(int argc, char ** argv)
   struct ServerSocket listener;
   struct StreamSocket socket;
 
-  port_t port = 4000;
-  int max_pending = 5;
-  int max_len = 20*sizeof(char);
-  char * data = (char *) malloc(max_len);
+  port_t port;
+  int max_pending;
+  char data[MAXLEN];
+  int nb_recv;
 
-  if(argc > 3)
-    {
-      port = atoi(argv[1]);
-      max_pending = atoi(argv[2]);
-    }
+  port = 1983;
+  max_pending = 5;
+  SocketUtility.ServerCommandLine(argc, argv, &port, &max_pending);
 
   if( __ServerSocket__(&listener) == -1 )
     exit(-1);
@@ -26,13 +24,13 @@ int main(int argc, char ** argv)
 
   listener.accept(&listener, &socket);
 
-  socket.read(&socket, data, max_len);
+  nb_recv = socket.read(&socket, data, MAXLEN-1);
+
+  SocketUtility.ntocs(data, data, nb_recv);
 
   printf("Serveur: recu message\n.Contenu: %s\n", data);
 
   socket.close(&socket);
-
-  free(data);
 
   return 0;
 }
