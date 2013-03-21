@@ -15,7 +15,7 @@ int utility_create_sockaddr(struct sockaddr_in * addr, const char * ip, port_t p
       addr->sin_addr.s_addr = INADDR_ANY;
     }
 
-  addr->sin_port = port;
+  addr->sin_port = htons(port);
 
   addr->sin_family = AF_INET;
 
@@ -35,7 +35,7 @@ int utility_getsockaddr(struct sockaddr_in * addr, const char * node, port_t por
     {
       memcpy(addr, res->ai_addr, res->ai_addrlen);
 
-      addr->sin_port = port;
+      addr->sin_port = htons(port);
 
       freeaddrinfo(res);
 

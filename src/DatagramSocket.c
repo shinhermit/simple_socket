@@ -22,7 +22,7 @@ int __DatagramSocket__(struct DatagramSocket * _this)
 
 int sock_bind(struct DatagramSocket * _this, port_t port)
 {
-  _this->_myaddr.sin_port = port;
+  _this->_myaddr.sin_port = htons(port);
 
   return bind(_this->_descriptor, (struct sockaddr*)(&_this->_myaddr), sizeof(struct sockaddr_in));
 }

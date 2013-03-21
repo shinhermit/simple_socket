@@ -23,7 +23,7 @@ int __ServerSocket__(struct ServerSocket * _this)
 
 int lstnsckt_bind(struct ServerSocket * _this, port_t listening_port, int max_pending)
 {
-  _this->_myaddr.sin_port = listening_port;
+  _this->_myaddr.sin_port = htons(listening_port);
 
   if( bind(_this->_descriptor, (struct sockaddr*)(&_this->_myaddr), sizeof(struct sockaddr_in)) == -1 )
     return -1;
